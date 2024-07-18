@@ -30,12 +30,18 @@ def read_tables_from_excel():
     table1.columns = header_row
     table1.columns = [clean_column_name(col) for col in table1.columns]
     table1 = table1[1:]
+    table1['FileSize(GB)']=table1['FileSize(GB)'].astype(float)
 
     #extracting table2 i.e. NA data
     table2=excel_full_df.iloc[table_start_row:table_end_row,table2_columns]
-    header_row = table1.iloc[0]
+    header_row = table2.iloc[0]
     table2.columns = header_row
-    table2 = table1[1:]
-
+    table2.columns = [clean_column_name(col) for col in table2.columns]
+    table2 = table2[1:]
+    table1['FileSize(GB)']=table1['FileSize(GB)'].astype(float)
     return(table1,table2)
+
+
+read_tables_from_excel()
+
 
