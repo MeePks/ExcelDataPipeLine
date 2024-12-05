@@ -21,9 +21,10 @@ def sql_connection(server,database):
         print(f"Error Connecting to the {server}: {database}")
 
 engine=sql_connection(server,database)
-EU_table,NA_table=ref.read_tables_from_excel()
+#EU_table,NA_table=ref.read_tables_from_excel()
+EU_table=ref.read_tables_from_excel()
 EU_table.to_sql(table,engine,schema='dbo',if_exists='replace',index=False)
-NA_table.to_sql(table,engine,schema='dbo',if_exists='append',index=False)
+#NA_table.to_sql(table,engine,schema='dbo',if_exists='append',index=False)
 
 
     

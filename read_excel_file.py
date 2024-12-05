@@ -10,7 +10,7 @@ path=config['excel']['path']
 sheet=config['excel']['sheetname']
 table_start_row=config.getint('excel','table_start_row')
 table1_columns = list(map(int, config.get('excel', 'table1_columns').split(',')))
-table2_columns = list(map(int, config.get('excel', 'table2_columns').split(',')))
+#table2_columns = list(map(int, config.get('excel', 'table2_columns').split(',')))
 
 def clean_column_name(column_name):
     parts = column_name.split(' ',)
@@ -21,9 +21,20 @@ def clean_column_name(column_name):
 def read_tables_from_excel():
     #read excel file and extract table
     excel_full_df=pd.read_excel(path,sheet_name=sheet,header=None)
-    table_end_row=len(excel_full_df)-2   #determing end row by decrementing two from the dataframelength due to trend in data in excel 
+    table_end_row=len(excel_full_df)-1   #determing end row by decrementing two from the dataframelength due to trend in data in excel
+    
 
+    #extracting table1 
+ 
+    table1=excel_full_df.iloc[table_start_row:table_end_row,table1_columns]
+    header_row = table1.iloc[0]
+    table1.columns = header_row
+    table1.columns = [clean_column_name(col) for col in table1.columns]
+    table1 = table1[1:]
+    return(table1)
+    #table1['FileSize(GB)']=table1['FileSize(GB)'].astype(float) 
 
+'''
     #extracting table1 i.e. EU data
     table1=excel_full_df.iloc[table_start_row:table_end_row,table1_columns]
     header_row = table1.iloc[0]
@@ -40,7 +51,8 @@ def read_tables_from_excel():
     table2 = table2[1:]
     table1['FileSize(GB)']=table1['FileSize(GB)'].astype(float)
     return(table1,table2)
-
+'''
+    
 
 read_tables_from_excel()
 
